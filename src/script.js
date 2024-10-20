@@ -1,3 +1,59 @@
+// Check if the user has already agreed to the disclaimer
+if (!localStorage.getItem('disclaimerAccepted')) {
+    window.onload = function () {
+        document.getElementById('disclaimerModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+}
+
+// Function to close the modal
+function closeModal() {
+    // Do not close the modal, just alert the user
+    alert("You must agree to the disclaimer to use this site.");
+}
+
+// Function to handle agreement
+function agreeToDisclaimer() {
+    localStorage.setItem('disclaimerAccepted', 'true'); // Save the agreement
+    document.getElementById('disclaimerModal').style.display = 'none'; // Close the modal
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
+}
+const resizer = document.querySelector('.resizer');
+const leftPanel = document.querySelector('.docx-editor');
+const rightPanel = document.querySelector('.xml-editor');
+const buttonPanel = document.querySelector('.button-panel');
+
+let isResizing = false;
+let initialWidth = 0; // Track initial width of the left panel
+let initialMouseX = 0; // Track initial mouse position
+
+resizer.addEventListener('mousedown', (event) => {
+    isResizing = true;
+    initialWidth = leftPanel.offsetWidth; // Get the initial width of the left panel
+    initialMouseX = event.clientX; // Get the initial mouse position
+    document.body.style.cursor = 'ew-resize'; // Change cursor
+});
+
+document.addEventListener('mousemove', (event) => {
+    if (isResizing) {
+        const mouseDelta = event.clientX - initialMouseX; // Calculate change in mouse position
+        const newWidth = initialWidth + mouseDelta; // Calculate new width
+
+        // Get the width of the button panel
+        const buttonPanelWidth = buttonPanel.offsetWidth;
+
+        // Set the new widths without constraints
+        leftPanel.style.width = newWidth + 'px'; // Set the width of the docx-editor
+        rightPanel.style.width = `calc(100% - ${newWidth + buttonPanelWidth + 10}px)`; // Adjust width of xml-editor
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    isResizing = false;
+    document.body.style.cursor = 'default'; // Reset cursor
+});
+
+
 // Initialize TinyMCE
 tinymce.init({
     selector: '#tinymce-editor',
@@ -1032,7 +1088,7 @@ function makeRadio(content) {
     content = content.replace(/(<br\s*\/?>\s*<br\s*\/?>)/g, '').replace(/ +/g, ' ').trim();
 
     let qAttributes = '', qcomment = '';
-    
+
     // Check for comments in the content
     for (const com of comments) {
         if (content.includes(com)) {
