@@ -10,6 +10,22 @@
 </head>
 
 <body>
+    <!-- Disclaimer Modal -->
+    <div id="disclaimerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Disclaimer</h2>
+            <p>Please read the following disclaimer carefully before using this website:</p>
+            <p>This tool is designed for educational purposes only. It is specially designed for the Decipher tool for
+                scripting in a more convenient way. Ensure that you understand the functionality and limitations of the
+                XML generation process.</p>
+            <p>You can refer to the <a href="src/Guide.pdf" target="_blank" title="Guide">Guide</a> for detailed
+                instructions on how to use this tool.</p>
+            <button id="agreeBtn" onclick="agreeToDisclaimer()">I Agree</button>
+        </div>
+    </div>
+
+
     <div class="navbar">
         <div class="navbar-content">
             <a href="https://riteshranjansah.github.io/portfolio" target="_blank" title="Created By">👨‍💻</a>
@@ -38,6 +54,7 @@
                 title="By clicking this button, you will be able to generate complete XML in one go. Please ensure the document is in proper format for accurate results.">
                 <span>Generate XML</span>
             </button>
+
             <!-- Buttons -->
             <div class="dropdown">
                 <button class="dropdown-toggle" onclick="toggleDropdown('questionTypes')">! QUESTION TYPES</button>
@@ -131,7 +148,7 @@
                 </div>
             </div>
         </div>
-
+        <div class="resizer"></div>
         <!-- Right editor: XML editor -->
         <div class="xml-editor">
             <div class="xml-toolbar">
